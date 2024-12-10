@@ -1,0 +1,22 @@
+/* Custom styles to enhance the dark theme */
+.program-card {
+    transition: transform 0.2s ease-in-out;
+}
+
+.program-card:hover {
+    transform: translateY(-5px);
+}
+
+.icon-wrapper {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background-color: var(--bs-dark);
+}
+
+.category-section h2 {
+    color: var(--bs-info);
+}
