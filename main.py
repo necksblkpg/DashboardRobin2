@@ -1,7 +1,6 @@
 from app import app
 import logging
 
-# Set up logging
 logging.basicConfig(level=logging.DEBUG)
 
 if __name__ == "__main__":

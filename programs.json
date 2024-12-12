@@ -1,0 +1,37 @@
+[
+    {
+        "name": "Svara på Kundrecensioner",
+        "description": "Svara enkelt på kundfeedback",
+        "url": "#",
+        "category": "Customer service",
+        "icon": "fa-star"
+    },
+    {
+        "name": "Centra Translate",
+        "description": "Textöversättning med språksidentifiering",
+        "url": "https://translatedescdisplay.replit.app/login",
+        "category": "Translation",
+        "icon": "fa-language"
+    },
+    {
+        "name": "Storyblok Translate",
+        "description": "Dokumentöversättning och formatering",
+        "url": "#",
+        "category": "Translation",
+        "icon": "fa-language"
+    },
+    {
+        "name": "Looker Studio Report",
+        "description": "Affärsanalys och rapportering i realtid",
+        "url": "https://lookerstudio.google.com/u/0/reporting/751e0957-c4b2-4377-ad71-52d7f2e0da62/page/IJmAE",
+        "category": "Performance",
+        "icon": "fa-chart-line"
+    },
+    {
+        "name": "Inköpsprogram",
+        "description": "Håll koll på lagerstatus och beställningar",
+        "url": "#",
+        "category": "Inköp",
+        "icon": "fa-box-open"
+    }
+]
