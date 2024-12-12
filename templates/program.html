@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="text-3xl font-bold mb-4">{{ program.name }}</h1>
+<p class="mb-2 text-gray-700 dark:text-gray-200"><strong>Beskrivning:</strong> {{ program.description }}</p>
+<p class="mb-2 text-gray-700 dark:text-gray-200"><strong>Kategori:</strong> {{ program.category }}</p>
+<p class="mb-4 text-gray-700 dark:text-gray-200"><strong>URL:</strong> <a href="{{ program.url }}" target="_blank" class="text-blue-600 dark:text-blue-400 underline">{{ program.url }}</a></p>
+<i class="fas {{ program.icon }} fa-2x text-gray-700 dark:text-gray-200"></i>
+{% endblock %}

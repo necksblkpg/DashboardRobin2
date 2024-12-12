@@ -1,42 +1,36 @@
 {% extends "base.html" %}
 
 {% block content %}
-<!-- Hero sektion med animerad gradient -->
-<div class="mb-10 rounded-lg p-8 text-white shadow-lg relative overflow-hidden">
-    <!-- Animerad bakgrund -->
-    <div class="absolute inset-0 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 animate-gradient-x"></div>
-    <div class="relative z-10">
-        <h1 class="text-4xl font-bold mb-2">Mina Program</h1>
-        <p class="text-sm opacity-90 mb-4">Upptäck, hantera och starta alla dina verktyg från en plats.</p>
-        <a href="{{ url_for('about') }}" class="inline-block bg-white text-gray-900 px-4 py-2 rounded-lg font-medium hover:bg-gray-100 transition">
-            Läs mer om applikationen
-        </a>
-        {% if query %}
-            <p class="mt-2 text-sm text-white">Sökresultat för: <strong>{{ query }}</strong></p>
-        {% endif %}
-    </div>
+<div class="mb-6 relative overflow-hidden rounded bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white p-6">
+    <h1 class="text-2xl font-semibold mb-1">Mina Program</h1>
+    <p class="text-xs opacity-90">Upptäck, hantera och starta alla dina verktyg från en plats.</p>
+    {% if query %}
+        <p class="mt-1 text-xs opacity-90">Sökresultat för: <strong>{{ query }}</strong></p>
+    {% endif %}
 </div>
 
 {% if categories %}
     {% for category, programs in categories.items() %}
-    <div class="mb-10">
-        <h2 class="text-2xl font-semibold mb-4 flex items-center text-gray-800 dark:text-gray-100">
-            <i class="fas fa-folder mr-2 text-gray-500 dark:text-gray-300 group-hover:text-blue-400 transition-colors duration-300"></i>
+    <div class="mb-6">
+        <h2 class="text-xl font-medium mb-2 flex items-center text-gray-800 dark:text-gray-100">
+            <i class="fas fa-folder mr-1 text-gray-500 dark:text-gray-300"></i>
             {{ category }}
         </h2>
-        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {% for program in programs %}
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 relative flex flex-col transform hover:-translate-y-1 hover:shadow-2xl transition hover:scale-[1.02]">
-                <div class="flex items-center space-x-3 mb-3">
-                    <div class="w-12 h-12 flex justify-center items-center rounded-full bg-gray-100 dark:bg-gray-700 transition-colors duration-300 group hover:bg-blue-100 dark:hover:bg-gray-600">
-                        <i class="fas {{ program.icon }} fa-lg text-gray-700 dark:text-gray-200 group-hover:text-blue-600 transition-colors duration-300"></i>
+            <div class="bg-white dark:bg-gray-800 rounded shadow p-4 flex flex-col transition transform hover:-translate-y-0.5 hover:shadow-md">
+                <div class="flex items-center space-x-2 mb-2">
+                    <div class="w-8 h-8 flex justify-center items-center rounded bg-gray-100 dark:bg-gray-700">
+                        <i class="fas {{ program.icon }} text-gray-700 dark:text-gray-200"></i>
                     </div>
-                    <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 transition-colors duration-300">{{ program.name }}</h3>
+                    <h3 class="text-base font-medium text-gray-900 dark:text-gray-100">
+                        {{ program.name }}
+                    </h3>
                 </div>
-                <p class="text-sm text-gray-600 dark:text-gray-300 mb-6 flex-1">
+                <p class="text-xs text-gray-600 dark:text-gray-300 mb-4 flex-1 leading-snug">
                     {{ program.description }}
                 </p>
-                <a href="{{ program.url }}" target="_blank" class="text-blue-600 dark:text-blue-400 font-medium hover:underline text-sm self-end transition-colors duration-300">
+                <a href="{{ program.url }}" target="_blank" class="text-blue-600 dark:text-blue-400 text-xs hover:underline self-end">
                     Öppna program <i class="fas fa-arrow-right ml-1"></i>
                 </a>
             </div>
@@ -45,8 +39,8 @@
     </div>
     {% endfor %}
 {% else %}
-    <div class="text-center py-20">
-        <p class="text-gray-500 dark:text-gray-400">Inga program hittades för din sökning.</p>
+    <div class="text-center py-10">
+        <p class="text-sm text-gray-500 dark:text-gray-400">Inga program hittades för din sökning.</p>
     </div>
 {% endif %}
 {% endblock %}

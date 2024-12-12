@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="text-xl font-bold mb-4">Redigera program #{{ program.id }}</h1>
+<form action="{{ url_for('admin_edit', program_id=program.id) }}" method="post" class="space-y-2 w-full max-w-md text-sm">
+    <div>
+        <label for="name" class="block mb-1">Namn:</label>
+        <input type="text" id="name" name="name" value="{{ program.name }}" class="w-full rounded px-2 py-1 dark:bg-gray-700 dark:text-gray-100 text-sm" required>
+    </div>
+    <div>
+        <label for="description" class="block mb-1">Beskrivning:</label>
+        <textarea id="description" name="description" class="w-full rounded px-2 py-1 dark:bg-gray-700 dark:text-gray-100 text-sm" rows="2">{{ program.description }}</textarea>
+    </div>
+    <div>
+        <label for="url" class="block mb-1">URL:</label>
+        <input type="text" id="url" name="url" value="{{ program.url }}" class="w-full rounded px-2 py-1 dark:bg-gray-700 dark:text-gray-100 text-sm">
+    </div>
+    <div>
+        <label for="category" class="block mb-1">Kategori:</label>
+        <input type="text" id="category" name="category" value="{{ program.category }}" class="w-full rounded px-2 py-1 dark:bg-gray-700 dark:text-gray-100 text-sm">
+    </div>
+    <div>
+        <label for="icon" class="block mb-1">Ikon (FontAwesome-klass):</label>
+        <input type="text" id="icon" name="icon" value="{{ program.icon }}" class="w-full rounded px-2 py-1 dark:bg-gray-700 dark:text-gray-100 text-sm" placeholder="t.ex. fa-star">
+    </div>
+    <div class="flex space-x-2 mt-2">
+        <button type="submit" class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 text-xs">Spara</button>
+        <a href="{{ url_for('admin') }}" class="bg-gray-600 text-white px-3 py-1 rounded hover:bg-gray-700 text-xs">Avbryt</a>
+    </div>
+</form>
+{% endblock %}

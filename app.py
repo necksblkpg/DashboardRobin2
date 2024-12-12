@@ -42,7 +42,7 @@ def init_db():
     cur = conn.execute('SELECT COUNT(*) as count FROM programs')
     count = cur.fetchone()['count']
     if count == 0:
-        # Lägg in initial data som fanns i programs.json
+        # Lägg in initial data
         initial_data = [
             {
                 "name": "Svara på Kundrecensioner",
@@ -121,23 +121,81 @@ def about():
 
 @app.route('/program/<string:program_name>')
 def show_program(program_name: str):
-    # Här justerar vi sökningen så att vi hittar program baserat på name.
-    # Normalt bör vi ha unika namn. Om inte, använd ID istället.
+    # Direkt SQL-fråga baserat på namn (ersätter loop)
     conn = get_db_connection()
-    row = conn.execute('SELECT id, name, description, url, category, icon FROM programs').fetchall()
+    row = conn.execute('''
+        SELECT id, name, description, url, category, icon 
+        FROM programs 
+        WHERE LOWER(REPLACE(name, ' ', '_')) = ?
+    ''', (program_name.lower(),)).fetchone()
     conn.close()
 
-    chosen = None
-    for r in row:
-        if r["name"].replace(" ", "_").lower() == program_name.lower():
-            chosen = Program(id=r["id"], name=r["name"], description=r["description"], 
-                             url=r["url"], category=r["category"], icon=r["icon"])
-            break
-
-    if chosen:
+    if row:
+        chosen = Program(id=row["id"], name=row["name"], description=row["description"], 
+                         url=row["url"], category=row["category"], icon=row["icon"])
         return render_template('program.html', program=chosen)
     else:
         return redirect(url_for('index'))
+
+# ADMIN ROUTES
+@app.route('/admin')
+def admin():
+    # Visa lista över alla program och ett formulär för att lägga till nya
+    conn = get_db_connection()
+    rows = conn.execute('SELECT id, name, description, url, category, icon FROM programs ORDER BY category, name').fetchall()
+    conn.close()
+    return render_template('admin.html', programs=rows)
+
+@app.route('/admin/add', methods=['POST'])
+def admin_add():
+    name = request.form.get('name', '').strip()
+    description = request.form.get('description', '').strip()
+    url = request.form.get('url', '').strip()
+    category = request.form.get('category', '').strip()
+    icon = request.form.get('icon', '').strip()
+
+    if name:
+        conn = get_db_connection()
+        conn.execute('INSERT INTO programs (name, description, url, category, icon) VALUES (?, ?, ?, ?, ?)',
+                     (name, description, url, category, icon))
+        conn.commit()
+        conn.close()
+    return redirect(url_for('admin'))
+
+@app.route('/admin/delete/<int:program_id>', methods=['POST'])
+def admin_delete(program_id):
+    conn = get_db_connection()
+    conn.execute('DELETE FROM programs WHERE id = ?', (program_id,))
+    conn.commit()
+    conn.close()
+    return redirect(url_for('admin'))
+
+@app.route('/admin/edit/<int:program_id>', methods=['GET', 'POST'])
+def admin_edit(program_id):
+    conn = get_db_connection()
+    if request.method == 'POST':
+        # Uppdatera programmet
+        name = request.form.get('name', '').strip()
+        description = request.form.get('description', '').strip()
+        url = request.form.get('url', '').strip()
+        category = request.form.get('category', '').strip()
+        icon = request.form.get('icon', '').strip()
+
+        conn.execute('UPDATE programs SET name = ?, description = ?, url = ?, category = ?, icon = ? WHERE id = ?',
+                     (name, description, url, category, icon, program_id))
+        conn.commit()
+        conn.close()
+        return redirect(url_for('admin'))
+    else:
+        # Hämta befintlig data och visa formulär
+        row = conn.execute('SELECT id, name, description, url, category, icon FROM programs WHERE id = ?', (program_id,)).fetchone()
+        conn.close()
+        if row:
+            # Skapa ett Program-objekt
+            prog = Program(id=row["id"], name=row["name"], description=row["description"], url=row["url"], category=row["category"], icon=row["icon"])
+            return render_template('edit_program.html', program=prog)
+        else:
+            return redirect(url_for('admin'))
 
 if __name__ == "__main__":
     init_db()

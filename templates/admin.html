@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="text-xl font-bold mb-4">Administrera program</h1>
+
+<table class="w-full mb-6 border-collapse text-sm">
+    <thead>
+        <tr class="border-b border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100">
+            <th class="text-left py-1 px-2">ID</th>
+            <th class="text-left py-1 px-2">Namn</th>
+            <th class="text-left py-1 px-2">Beskrivning</th>
+            <th class="text-left py-1 px-2">URL</th>
+            <th class="text-left py-1 px-2">Kategori</th>
+            <th class="text-left py-1 px-2">Ikon</th>
+            <th class="text-left py-1 px-2">Åtgärder</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for p in programs %}
+        <tr class="border-b border-gray-200 dark:border-gray-700">
+            <td class="py-1 px-2">{{ p.id }}</td>
+            <td class="py-1 px-2">{{ p.name }}</td>
+            <td class="py-1 px-2 whitespace-normal max-w-xs">{{ p.description }}</td>
+            <td class="py-1 px-2">
+                <a href="{{ p.url }}" target="_blank" class="underline text-blue-600 dark:text-blue-400 break-words">{{ p.url }}</a>
+            </td>
+            <td class="py-1 px-2">{{ p.category }}</td>
+            <td class="py-1 px-2"><i class="fas {{ p.icon }}"></i></td>
+            <td class="py-1 px-2 flex space-x-1">
+                <form action="{{ url_for('admin_delete', program_id=p.id) }}" method="post" onsubmit="return confirm('Ta bort detta program?');">
+                    <button type="submit" class="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700 text-xs">Ta bort</button>
+                </form>
+                <a href="{{ url_for('admin_edit', program_id=p.id) }}" class="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600 text-xs">Redigera</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2 class="text-lg font-semibold mb-2">Lägg till nytt program</h2>
+<form action="{{ url_for('admin_add') }}" method="post" class="space-y-2 w-full max-w-md text-sm">
+    <div>
+        <label for="name" class="block mb-1">Namn:</label>
+        <input type="text" id="name" name="name" class="w-full rounded px-2 py-1 dark:bg-gray-700 dark:text-gray-100 text-sm" required>
+    </div>
+    <div>
+        <label for="description" class="block mb-1">Beskrivning:</label>
+        <textarea id="description" name="description" class="w-full rounded px-2 py-1 dark:bg-gray-700 dark:text-gray-100 text-sm" rows="2"></textarea>
+    </div>
+    <div>
+        <label for="url" class="block mb-1">URL:</label>
+        <input type="text" id="url" name="url" class="w-full rounded px-2 py-1 dark:bg-gray-700 dark:text-gray-100 text-sm">
+    </div>
+    <div>
+        <label for="category" class="block mb-1">Kategori:</label>
+        <input type="text" id="category" name="category" class="w-full rounded px-2 py-1 dark:bg-gray-700 dark:text-gray-100 text-sm">
+    </div>
+    <div>
+        <label for="icon" class="block mb-1">Ikon (FontAwesome-klass):</label>
+        <input type="text" id="icon" name="icon" class="w-full rounded px-2 py-1 dark:bg-gray-700 dark:text-gray-100 text-sm" placeholder="t.ex. fa-star">
+    </div>
+    <button type="submit" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 text-xs">Lägg till</button>
+</form>
+{% endblock %}
