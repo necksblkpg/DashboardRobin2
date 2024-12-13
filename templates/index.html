@@ -42,5 +42,32 @@
     <div class="text-center py-10">
         <p class="text-sm text-gray-500 dark:text-gray-400">Inga program hittades för din sökning.</p>
     </div>
+
+
+  ...
+  {% for program in programs %}
+    <div class="bg-white ...">
+      <div class="flex items-center space-x-2 mb-2">
+        <div class="w-8 ...">
+          <i class="fas {{ program.icon }}"></i>
+        </div>
+        <h3 class="...">{{ program.name }}</h3>
+        {% if session.user_id %}
+          <form action="{{ url_for('favorite_program', program_id=program.id) }}" method="post">
+            <button type="submit" class="text-yellow-400">
+              {% if program.is_fav %}
+                <i class="fas fa-star"></i>
+              {% else %}
+                <i class="far fa-star"></i>
+              {% endif %}
+            </button>
+          </form>
+        {% endif %}
+      </div>
+      <p>{{ program.description }}</p>
+      <a href="{{ program.url }}" target="_blank">Öppna program</a>
+    </div>
+  {% endfor %}
+{% endfor %}
 {% endif %}
 {% endblock %}
