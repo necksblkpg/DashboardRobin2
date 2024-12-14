@@ -2,9 +2,11 @@ body {
     background-color: #121212;
     color: #ffffff;
     font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
-/* Animera gradienten i hero */
+/* Modern och subtil gradientanimation för hero */
 @keyframes gradient-x {
     0% {
         background-position: 0% 50%;
@@ -22,15 +24,47 @@ body {
     animation: gradient-x 8s ease infinite;
 }
 
+/* Länkar */
+a, .navbar-brand, .nav-link, .footer-text, .btn-link {
+    color: #ffffff;
+    transition: color 0.2s ease;
+}
+
+a:hover, a.btn-link:hover {
+    color: #cfcfcf;
+}
+
+/* Navbar */
+.navbar-brand {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+/* Footer */
+footer {
+    border-top: 1px solid #2c2c2c;
+}
+
+/* Programkort - lite mer luft, modernare look */
 .program-card {
     background-color: #1e1e1e;
     border: 1px solid #2c2c2c;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    overflow: hidden;
+}
+.program-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
 }
 
 .program-card .card-body {
     position: relative;
+    padding: 1rem;
 }
 
+/* Ikon-wrapper */
 .icon-wrapper {
     width: 48px;
     height: 48px;
@@ -41,23 +75,134 @@ body {
     border-radius: 50%;
 }
 
-.navbar-brand, .nav-link, .footer-text, .btn-link {
-    color: #ffffff !important;
+/* Knappar */
+button, .btn-link, .search-button {
+    background-color: #4f46e5; /* Accentfärg (dov lila) */
+    color: #ffffff;
+    border: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
 }
 
-a.btn-link:hover {
-    color: #cccccc !important;
+button:hover, .btn-link:hover, .search-button:hover {
+    background-color: #3e3cad;
 }
 
-footer {
-    border-top: 1px solid #2c2c2c;
+input[type="search"], input[type="text"], textarea {
+    background-color: #2c2c2c;
+    color: #ffffff;
+    border: 1px solid #3c3c3c;
+    border-radius: 4px;
+    padding: 0.4rem;
+    width: 100%;
+    font-size: 0.9rem;
 }
 
-footer a {
-    text-decoration: none;
+input[type="search"]:focus, input[type="text"]:focus, textarea:focus {
+    outline: none;
+    border-color: #4f46e5;
+}
+
+/* Hero sektion */
+.hero-container {
+    position: relative;
+    background: linear-gradient(45deg, #4f46e5, #9f7aea, #ec4899);
+    background-size: 200% 200%;
+    animation: gradient-x 10s ease infinite;
+    padding: 2rem;
+    border-radius: 8px;
     color: #ffffff;
 }
 
-footer a:hover {
+.hero-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.hero-subtitle {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+/* Kategorisektioner */
+.category-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.category-icon {
+    color: #9f7aea;
+}
+
+.program-grid {
+    display: grid;
+    gap: 1.5rem;
+}
+@media (min-width: 640px) {
+    .program-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (min-width: 1024px) {
+    .program-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.program-item {
+    background-color: #1e1e1e;
+    border: 1px solid #2c2c2c;
+    border-radius: 6px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.program-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+.program-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+.program-header-icon {
+    width: 32px;
+    height: 32px;
+    background-color: #2c2c2c;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.program-header-title {
+    font-size: 1rem;
+    font-weight: 500;
+}
+.program-description {
+    font-size: 0.85rem;
+    opacity: 0.9;
+    flex: 1;
+    margin-bottom: 1rem;
+    line-height: 1.3rem;
+}
+.program-link {
+    font-size: 0.85rem;
     text-decoration: underline;
+    color: #9f7aea;
+    align-self: flex-end;
+    transition: color 0.2s ease;
+}
+.program-link:hover {
+    color: #cfc4f2;
 }

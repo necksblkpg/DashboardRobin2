@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="sv" class="h-full" data-theme="dark">
+<html lang="sv" class="h-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +10,7 @@
 
     <!-- Google Font (Inter) -->
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700" rel="stylesheet" />
+    <link href="https://fonts.bunny.net/css?family=inter:400;500;600;700" rel="stylesheet" />
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -27,15 +27,15 @@
         }
     </script>
 </head>
-<body class="h-full bg-gray-50 dark:bg-gray-900 text-sm text-gray-900 dark:text-gray-100 font-inter flex flex-col transition-colors duration-300">
-    <nav class="bg-white dark:bg-gray-800 px-4 py-2 flex items-center justify-between transition-colors duration-300 border-b border-gray-200 dark:border-gray-700">
-        <a class="text-lg font-medium hover:opacity-80 transition" href="{{ url_for('index') }}">
+<body class="h-full bg-gray-900 text-gray-100 font-inter flex flex-col transition-colors duration-300">
+    <nav class="bg-gray-800 px-4 py-2 flex items-center justify-between transition-colors duration-300 border-b border-gray-700">
+        <a class="navbar-brand" href="{{ url_for('index') }}">
             <i class="fas fa-th-large mr-2"></i>Programöversikt
         </a>
         <div class="flex items-center space-x-3">
             <form class="flex items-center space-x-2" action="{{ url_for('index') }}" method="get">
-                <input class="rounded px-2 py-1 text-sm dark:bg-gray-700 dark:text-gray-100 focus:outline-none border border-gray-300 dark:border-gray-600" type="search" name="sok" placeholder="Sök..." value="{{ query|default('') }}">
-                <button class="bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700 text-sm" type="submit">Sök</button>
+                <input class="rounded px-2 py-1 text-sm focus:outline-none border border-gray-600 dark:border-gray-600" type="search" name="sok" placeholder="Sök..." value="{{ query|default('') }}">
+                <button class="search-button text-sm" type="submit">Sök</button>
             </form>
             <a href="{{ url_for('about') }}" class="text-sm hover:underline">Om</a>
             <a href="{{ url_for('admin') }}" class="text-sm hover:underline">Admin</a>
@@ -44,19 +44,19 @@
             {% else %}
               <a href="{{ url_for('login') }}" class="text-sm hover:underline">Logga in</a>
             {% endif %}
-            <button id="theme-toggle" class="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition">
+            <button id="theme-toggle" class="p-1 rounded hover:bg-gray-700 transition">
                 <i id="theme-icon" class="fas fa-moon"></i>
             </button>
         </div>
     </nav>
 
-    <main class="flex-1 container mx-auto py-4 px-4 md:px-6">
+    <main class="flex-1 container mx-auto py-6 px-4 md:px-6">
         {% block content %}{% endblock %}
     </main>
 
-    <footer class="bg-white dark:bg-gray-800 py-2 text-center border-t border-gray-200 dark:border-gray-700 transition-colors duration-300">
-        <p class="text-xs text-gray-600 dark:text-gray-400">© 2024 Företaget AB | 
-            <a href="{{ url_for('about') }}" class="underline hover:no-underline text-blue-600 dark:text-blue-400">Om</a>
+    <footer class="bg-gray-800 py-2 text-center border-t border-gray-700 transition-colors duration-300">
+        <p class="text-xs text-gray-400">© 2024 Företaget AB | 
+            <a href="{{ url_for('about') }}" class="underline hover:no-underline text-purple-400">Om</a>
         </p>
     </footer>
 
