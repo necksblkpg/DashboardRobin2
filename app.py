@@ -81,6 +81,10 @@ def load_programs_from_db() -> List[Program]:
 
 @app.route('/')
 def index():
+    # Kräver inloggning innan användaren kan se dashboard
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
     query = request.args.get("sok", "").strip().lower()
     programs = load_programs_from_db()
 
