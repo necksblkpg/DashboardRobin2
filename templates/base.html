@@ -39,6 +39,11 @@
             </form>
             <a href="{{ url_for('about') }}" class="text-sm hover:underline">Om</a>
             <a href="{{ url_for('admin') }}" class="text-sm hover:underline">Admin</a>
+            {% if session.user_id %}
+              <a href="{{ url_for('logout') }}" class="text-sm hover:underline">Logga ut</a>
+            {% else %}
+              <a href="{{ url_for('login') }}" class="text-sm hover:underline">Logga in</a>
+            {% endif %}
             <button id="theme-toggle" class="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition">
                 <i id="theme-icon" class="fas fa-moon"></i>
             </button>

@@ -192,7 +192,6 @@ def admin_edit(program_id):
         else:
             return redirect(url_for('admin'))
 
-# Nya routes för användarhantering
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
