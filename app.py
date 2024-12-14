@@ -6,7 +6,12 @@ from typing import List
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-app.secret_key = os.environ.get("FLASK_SECRET_KEY") or "hemlig_nyckel_2024_modern"
+
+secret_key = os.environ.get("FLASK_SECRET_KEY")
+if not secret_key:
+    raise ValueError("FLASK_SECRET_KEY är inte satt i miljövariablerna.")
+
+app.secret_key = secret_key
 
 DATABASE = os.path.join(os.path.dirname(__file__), 'database.db')
 
@@ -79,12 +84,20 @@ def load_programs_from_db() -> List[Program]:
                          url=row["url"], category=row["category"], icon=row["icon"]) for row in rows]
     return programs
 
-@app.route('/')
-def index():
-    # Kräver inloggning innan användaren kan se dashboard
-    if 'user_id' not in session:
+@app.before_request
+def require_login():
+    # Lista av endpoints som ska få vara öppna utan inloggning
+    open_endpoints = {'login', 'register', 'static'}
+
+    # request.endpoint är namnet på den route-funktion som ska anropas
+    # t.ex. om @app.route('/login') def login(): -> endpoint "login"
+    # 'static' används för statiska filer.
+
+    if request.endpoint not in open_endpoints and 'user_id' not in session:
         return redirect(url_for('login'))
 
+@app.route('/')
+def index():
     query = request.args.get("sok", "").strip().lower()
     programs = load_programs_from_db()
 
@@ -143,7 +156,13 @@ def show_program(program_name: str):
 
 @app.route('/admin')
 def admin():
+    # Här krävs inloggning pga before_request
     conn = get_db_connection()
+    user = conn.execute('SELECT username FROM users WHERE id = ?', (session['user_id'],)).fetchone()
+    if not user or user['username'] != 'admin':
+        conn.close()
+        return "Åtkomst nekad", 403
+
     rows = conn.execute('SELECT id, name, description, url, category, icon FROM programs ORDER BY category, name').fetchall()
     conn.close()
     return render_template('admin.html', programs=rows)
@@ -198,6 +217,7 @@ def admin_edit(program_id):
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    # Behöver vara öppen innan inlogg, lägg därför till "register" i open_endpoints i before_request
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
@@ -216,6 +236,7 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    # Behöver vara öppen, lägg "login" i open_endpoints i before_request
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
@@ -232,12 +253,10 @@ def login():
 @app.route('/logout')
 def logout():
     session.pop('user_id', None)
-    return redirect(url_for('index'))
+    return redirect(url_for('login'))
 
 @app.route('/favorite/<int:program_id>', methods=['POST'])
 def favorite_program(program_id):
-    if 'user_id' not in session:
-        return redirect(url_for('login'))
     user_id = session['user_id']
     conn = get_db_connection()
     existing = conn.execute('SELECT * FROM favorites WHERE user_id = ? AND program_id = ?', (user_id, program_id)).fetchone()
